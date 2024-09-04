@@ -126,11 +126,11 @@ a {
     background-color: #3367d6;
 }
 
-/* Estilos existentes ... */
+
 
 .table {
     width: 100%;
-    border-collapse: collapse; /* Para evitar espacios entre las celdas */
+    border-collapse: collapse; 
     margin-bottom: 20px;
 }
 
@@ -165,3 +165,65 @@ a {
 .btn-danger:hover {
     background-color: #c82333; 
 }
+
+.btn-update {
+    background-color: #c9bd17; 
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-update:hover {
+    background-color: #ad9f1f; 
+}
+
+/* Estilos existentes ... */
+
+.form-update {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.update-form {
+    display: flex;
+    flex-direction: column; 
+    max-width: 500px; 
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.update-form input[type="text"],
+.update-form input[type="number"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+.btn-primary {
+    background-color: #007bff; /* Color azul primario para el botón de actualizar */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: center; /* Centra el botón horizontalmente */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Color azul más oscuro al pasar el mouse */
+}
+
+

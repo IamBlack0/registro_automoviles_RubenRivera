@@ -71,7 +71,7 @@ private function placaExisteEnBaseDeDatos($placa) {
     }
 
  // Método para eliminar un automóvil
- public function eliminar($id) {
+public function eliminar($id) {
     // Query para eliminar un automóvil
     $query = "DELETE FROM ". $this->table_name. " WHERE id = :id";
     // Preparar la declaración
@@ -88,6 +88,36 @@ private function placaExisteEnBaseDeDatos($placa) {
         return true;
     }
     return false;
- }
+}
+
+  // Método para actualizar un automóvil
+
+  public function actualizar() {
+    // Query para actualizar un automóvil
+    $query = "UPDATE ". $this->table_name. "
+              SET marca = :marca, modelo = :modelo, anio = :anio, color = :color
+              WHERE id = :id";
+              // Preparar la declaración
+              $stmt = $this->conn->prepare($query);
+              // Limpiar los datos para evitar inyección SQL
+              $this->marca = htmlspecialchars(strip_tags($this->marca));
+              $this->modelo = htmlspecialchars(strip_tags($this->modelo));
+              $this->anio = htmlspecialchars(strip_tags($this->anio));
+              $this->color = htmlspecialchars(strip_tags($this->color));
+              $this->id = htmlspecialchars(strip_tags($this->id));
+              // Enlazar los parámetros
+              $stmt->bindParam(":marca", $this->marca);
+              $stmt->bindParam(":modelo", $this->modelo);
+              $stmt->bindParam(":anio", $this->anio);
+              $stmt->bindParam(":color", $this->color);
+              $stmt->bindParam(":id", $this->id);
+              // Ejecutar la declaración
+              if ($stmt->execute()) {
+                  return true;
+              }
+              return false;
+  }
+
+
 }
 ?>
