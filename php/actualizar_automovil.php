@@ -1,7 +1,7 @@
 <?php
-include 'templates/header.php';
-include 'includes/Database.php';
-include 'includes/Automovil.php';
+include '../templates/header.php';
+include '../includes/Database.php';
+include '../includes/Automovil.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -77,5 +77,5 @@ if ($automovil) {
     echo "Automóvil no encontrado.";
 }
 
-include 'templates/footer.php';
+include '../templates/footer.php';
 ?>

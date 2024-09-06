@@ -1,7 +1,7 @@
 <?php
-include 'templates/header.php';
-include 'includes/Database.php';
-include 'includes/Automovil.php';
+include '../templates/header.php';
+include '../includes/Database.php';
+include '../includes/Automovil.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <p>No hay automóviles registrados.</p>
 <?php endif; ?>
 
-<a href="index.php" class="button">Volver al inicio</a>
+<a href="../index.php" class="button">Volver al inicio</a>
 </div>
 
-<?php include 'templates/footer.php'; ?>
+<?php include '../templates/footer.php'; ?>

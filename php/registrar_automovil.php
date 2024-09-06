@@ -1,4 +1,4 @@
-<?php include('templates/header.php'); ?>
+<?php include('../templates/header.php'); ?>
 
     <div class="form-container">
         <h2 class="form-title">Registrar un nuevo vehículo</h2>
@@ -26,4 +26,4 @@
         </form>
     </div>
     
-    <?php include('templates/footer.php'); ?>
+<?php include('../templates/footer.php'); ?>

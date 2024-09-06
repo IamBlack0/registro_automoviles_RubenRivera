@@ -1,8 +1,8 @@
-<?php include('templates/header.php'); ?>
+<?php include('../templates/header.php'); ?>
 <?php
 // Incluir archivos de conexión y clase Automovil
-include 'includes/Database.php';
-include 'includes/Automovil.php';
+include '../includes\Database.php';
+include '../includes\Automovil.php';
 
 // Crear una instancia de la clase Database y obtener la conexión
 $database = new Database();
@@ -24,7 +24,7 @@ if ($automovil->registrar()) {
     echo "Error al registrar el automóvil.";
 }
 ?>
- <a href="index.php">VOLVER A INICIO</a>
+ <a href="../index.php">VOLVER A INICIO</a>
 
 
-<?php include('templates/footer.php'); ?>
+<?php include('../templates/footer.php'); ?>
