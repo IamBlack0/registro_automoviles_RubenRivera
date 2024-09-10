@@ -2,11 +2,55 @@ CREATE DATABASE gestion_automoviles;
 
 USE gestion_automoviles;
 
-CREATE TABLE automoviles (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    marca VARCHAR(50) NOT NULL,
-    modelo VARCHAR(50) NOT NULL,
-    anio INT NOT NULL,
-    color VARCHAR(30) NOT NULL,
-    placa VARCHAR(10) NOT NULL UNIQUE  
+CREATE TABLE marcas (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT, 
+  nombre TEXT NOT NULL
 );
+
+CREATE TABLE modelos (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  nombre TEXT NOT NULL,
+  marca_id BIGINT REFERENCES marcas(id)
+);
+
+CREATE TABLE tipos_vehiculo (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  nombre TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE automoviles (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  placa TEXT NOT NULL UNIQUE,
+  marca_id BIGINT REFERENCES marcas(id),
+  modelo_id BIGINT REFERENCES modelos(id),
+  ano INT NOT NULL,
+  color TEXT NOT NULL,
+  numero_motor TEXT NOT NULL,
+  numero_chasis TEXT NOT NULL,
+  tipo_vehiculo_id BIGINT REFERENCES tipos_vehiculo(id)
+);
+
+INSERT INTO marcas (nombre) 
+VALUES 
+    ('Toyota'),
+    ('Honda'),
+    ('Ford'),
+    ('Chevrolet'),
+    ('BMW');
+
+INSERT INTO modelos (nombre, marca_id)
+VALUES
+    ('Corolla', 1), 
+    ('Civic', 2),    
+    ('Focus', 3),     
+    ('Cruze', 4),     
+    ('Serie 3', 5);   
+
+INSERT INTO tipos_vehiculo (nombre)
+VALUES
+    ('Sedán'),
+    ('Hatchback'),
+    ('SUV'),
+    ('Camioneta'),
+    ('Microbús');
+
