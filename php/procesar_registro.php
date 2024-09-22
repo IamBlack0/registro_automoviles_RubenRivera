@@ -34,7 +34,7 @@ if ($automovil->registrar()) {
             // Cuando el tiempo se acaba, redirigir
             if (tiempoRestante <= 0) {
                 clearInterval(intervalo);
-                window.location.href = 'modificar_automovil.php';
+                window.location.href = 'tabla_automovil.php';
             }
         }, 1000); // 1000 ms = 1 segundo
     </script>";

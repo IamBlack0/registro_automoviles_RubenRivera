@@ -48,7 +48,7 @@
       </li>
   
       <li class="nav-item ">
-        <a href="./php/modificar_automovil.php" class="nav-link">
+        <a href="./php/tabla_automovil.php" class="nav-link">
           <span class="sidebar-icon">
             <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"></path><path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"></path></svg>
           </span>
@@ -120,7 +120,7 @@
                         Nueva Tarea
                     </button>
                     <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                        <a class="dropdown-item d-flex align-items-center" href="./php/modificar_automovil.php">
+                        <a class="dropdown-item d-flex align-items-center" href="./php/tabla_automovil.php">
                             <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path></svg>
                             Agregar automovil
                         </a>
