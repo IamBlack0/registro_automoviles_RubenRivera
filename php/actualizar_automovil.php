@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $automovil_obj->color = $color;
 
     if ($automovil_obj->actualizar()) {
-        header("Location: modificar_automovil.php");
+        header("Location: tabla_Automoviles.php");
         exit();
     } else {
         echo "<script>alert('Error al actualizar el automóvil');</script>";
@@ -53,9 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <h2 class="mb-0">Modificar Automóvil</h2>
                 </div>
                 <div class="card-body">
-                    <form action="" method="post">
-                        <div class="form-group">
-                            <label for="marca">Marca</label>
+                    <form class="row g-3" action="" method="post">
+                        <div class="col-12">
+                            <label for="marca" class="form-label">Marca</label>
                             <select class="form-select" id="marca" name="marca" required>
                                 <option disabled value="">Seleccione una marca</option>
                                 <?php
@@ -69,14 +69,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 ?>
                             </select>
                         </div>
-
-                        <div class="form-group">
-                            <label for="modelo">Modelo</label>
+                        <div class="col-12">
+                            <label for="modelo" class="form-label">Modelo</label>
                             <select class="form-select" id="modelo" name="modelo" required>
                                 <option disabled value="">Seleccione un modelo</option>
                                 <?php
-                                $query = "SELECT id, nombre FROM modelos";
+                                $query = "SELECT id, nombre FROM modelos WHERE marca_id = :marca_id";
                                 $stmt = $db->prepare($query);
+                                $stmt->bindParam(':marca_id', $automovil['marca_id']);
                                 $stmt->execute();
                                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                     $selected = $row['id'] == $automovil['modelo_id'] ? 'selected' : '';
@@ -85,9 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 ?>
                             </select>
                         </div>
-
-                        <div class="form-group">
-                            <label for="tipo_vehiculo">Tipo de vehículo</label>
+                        <div class="col-12">
+                            <label for="tipo_vehiculo" class="form-label">Tipo de vehículo</label>
                             <select class="form-select" id="tipo_vehiculo" name="tipo_vehiculo" required>
                                 <option disabled value="">Seleccione el tipo de vehículo</option>
                                 <?php
@@ -101,18 +100,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 ?>
                             </select>
                         </div>
-
-                        <div class="form-group">
-                            <label for="anio">Año</label>
-                            <input type="number" id="anio" name="anio" class="form-control" value="<?php echo htmlspecialchars($automovil['ano']); ?>" required>
+                        <div class="col-12">
+                            <label for="anio" class="form-label">Año</label>
+                            <input type="number" id="anio" name="anio" class="form-control"
+                                value="<?php echo htmlspecialchars($automovil['ano']); ?>" required min="2000"
+                                max="2030">
                         </div>
-
-                        <div class="form-group">
-                            <label for="color">Color</label>
-                            <input type="text" id="color" name="color" class="form-control" value="<?php echo htmlspecialchars($automovil['color']); ?>" required>
+                        <div class="col-12">
+                            <label for="color" class="form-label">Color</label>
+                            <input type="text" id="color" name="color" class="form-control"
+                                value="<?php echo htmlspecialchars($automovil['color']); ?>" required>
                         </div>
-
-                        <button type="submit" class="btn btn-primary w-100 mt-3">Actualizar</button>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                            <button type="reset" class="btn btn-danger">Reset</button>
+                            <a href="tabla_Automoviles.php" class="btn btn-secondary">Volver</a>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -120,7 +123,87 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
+<script>
+    document.getElementById('marca').addEventListener('change', function () {
+        var marcaId = this.value;
+        if (marcaId) {
+            fetchModelos(marcaId);
+        }
+    });
+
+    document.getElementById('modelo').addEventListener('change', function () {
+        var modeloId = this.value;
+        if (modeloId) {
+            fetchTiposVehiculo(modeloId);
+        }
+    });
+
+    document.getElementById('anio').addEventListener('input', function () {
+        var anio = this.value;
+        if (anio < 2000 || anio > 2030) {
+            alert('El año debe estar entre 2000 y 2030.');
+            this.value = '';
+        }
+        if (anio < 0) {
+            alert('El año no puede ser negativo.');
+            this.value = '';
+        }
+    });
+
+    function fetchModelos(marcaId) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '../ajax/obtener_modelos.php', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (this.status == 200) {
+                var modelos = JSON.parse(this.responseText);
+                var modeloSelect = document.getElementById('modelo');
+                modeloSelect.innerHTML = '<option selected disabled value="">Seleccione un modelo</option>';
+                modelos.forEach(function (modelo) {
+                    var option = document.createElement('option');
+                    option.value = modelo.id;
+                    option.textContent = modelo.nombre;
+                    modeloSelect.appendChild(option);
+                });
+            }
+        };
+        xhr.send('marca_id=' + marcaId);
+    }
+
+    function fetchTiposVehiculo(modeloId) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '../ajax/obtener_tipos_vehiculo.php', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (this.status == 200) {
+                var tiposVehiculo = JSON.parse(this.responseText);
+                var tipoVehiculoSelect = document.getElementById('tipo_vehiculo');
+                tipoVehiculoSelect.innerHTML = '<option selected disabled value="">Seleccione el tipo de vehículo</option>';
+                tiposVehiculo.forEach(function (tipoVehiculo) {
+                    var option = document.createElement('option');
+                    option.value = tipoVehiculo.id;
+                    option.textContent = tipoVehiculo.nombre;
+                    tipoVehiculoSelect.appendChild(option);
+                });
+            }
+        };
+        xhr.send('modelo_id=' + modeloId);
+    }
+
+    // Inicializar los modelos y tipos de vehículo al cargar la página
+    document.addEventListener('DOMContentLoaded', function () {
+        var marcaId = document.getElementById('marca').value;
+        var modeloId = document.getElementById('modelo').value;
+        if (marcaId) {
+            fetchModelos(marcaId);
+        }
+        if (modeloId) {
+            fetchTiposVehiculo(modeloId);
+        }
+    });
+</script>
+
 <?php
-ob_end_flush(); 
+ob_end_flush();
 include '../templates/footer.php';
 ?>

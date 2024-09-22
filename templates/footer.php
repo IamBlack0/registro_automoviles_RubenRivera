@@ -1,30 +1,27 @@
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+  <div class="copyright">
+  © <?php echo date("Y"); ?> <strong><span>Sistema de Gestión de Automóviles </span></strong>. Ruben Rivera / 8-1003-856 / 1LS131
+  </div>
 
-<!--FOOTER-->
-<footer class="bg-white rounded shadow p-4 mb-4 mt-4">
-    <div class="row">
-        <div class="col-12 col-md-4 col-xl-8 mb-4 mb-md-0">
-            <p class="mb-0 text-center text-lg-start">© <?php echo date("Y"); ?>-<span class="current-year"></span> <a class="text-primary fw-normal">  Sistema de Gestión de Automóviles. Ruben Rivera / 8-1003-856 / 1LS131
-            </a></p>
-        </div>
+</footer><!-- End Footer -->
 
-    </div>
-</footer>
-        </main>
-    <!-- Core -->
-<script src="../js/popper.min.js"></script>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-<script src="../Bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- Vendor JS -->
-<script src="../js/on-screen.umd.min.js"></script>
-<!-- Slider -->
-<script src="../js/distribute/nouislider.min.js"></script>
-<!-- Smooth scroll -->
-<script src="../js/smooth-scroll.polyfills.min.js"></script>
-<!-- Volt JS -->
-<script src="../js/volt.js"></script>
-<!-- Script JS -->
-<script src="../js/script.js"></script>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Vendor JS Files -->
+<script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/vendor/chart.js/chart.umd.js"></script>
+<script src="../assets/vendor/echarts/echarts.min.js"></script>
+<script src="../assets/vendor/quill/quill.js"></script>
+<script src="../assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="../assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="../assets/vendor/php-email-form/validate.js"></script>
+
+
+
+<!-- Template Main JS File -->
+<script src="../assets/js/main.js"></script>
+
 </body>
 </html>
