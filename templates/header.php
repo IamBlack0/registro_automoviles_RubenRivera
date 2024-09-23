@@ -34,6 +34,11 @@
     <link href="https://cdn.datatables.net/select/1.3.4/css/select.bootstrap5.min.css" rel="stylesheet">
     <link href="https://editor.datatables.net/extensions/Editor/css/editor.bootstrap5.min.css" rel="stylesheet">
 
+    <!-- Incluir Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<!-- Incluir Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 
 <body>

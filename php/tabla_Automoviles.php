@@ -106,9 +106,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                   <th>Modelo</th>
                   <th>Año</th>
                   <th>Color</th>
-                  <th>Número de motor</th>
-                  <th>Número de chasis</th>
-                  <th>Tipo de vehículo</th>
+                  <th>Núm motor</th>
+                  <th>Núm chasis</th>
+                  <th>Tipo</th>
                   <th>Acción</th>
                 </tr>
               </thead>

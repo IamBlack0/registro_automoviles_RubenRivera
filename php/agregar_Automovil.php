@@ -9,57 +9,72 @@
                 </div>
                 <div class="card-body">
                     <!-- Vertical Form -->
-    <form class="row g-3" action="guardar_automovil.php" method="post">
-        <div class="col-12">
-            <label for="marca" class="form-label">Marca</label>
-            <select class="form-select" id="marca" name="marca" required>
-                <option selected disabled value="">Seleccione una marca</option>
-                <?php
-                include '../includes/Database.php';
-                $database = new Database();
-                $db = $database->getConnection();
+                    <form class="row g-3" action="procesar_Registro_Automovil.php" method="post">
+                        <div class="col-12">
+                            <label for="marca" class="form-label">Marca</label>
+                            <select class="form-select" id="marca" name="marca" required>
+                                <option selected disabled value="">Seleccione una marca</option>
+                                <?php
+                                include '../includes/Database.php';
+                                $database = new Database();
+                                $db = $database->getConnection();
 
-                $query = "SELECT id, nombre FROM marcas";
-                $stmt = $db->prepare($query);
-                $stmt->execute();
+                                $query = "SELECT id, nombre FROM marcas";
+                                $stmt = $db->prepare($query);
+                                $stmt->execute();
 
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    echo "<option value='" . $row['id'] . "'>" . $row['nombre'] . "</option>";
-                }
-                ?>
-            </select>
+                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<option value='" . $row['id'] . "'>" . $row['nombre'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label for="modelo" class="form-label">Modelo</label>
+                            <select class="form-select" id="modelo" name="modelo" required>
+                                <option selected disabled value="">Seleccione un modelo</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label for="tipo_vehiculo" class="form-label">Tipo de vehículo</label>
+                            <select class="form-select" id="tipo_vehiculo" name="tipo_vehiculo" required>
+                                <option selected disabled value="">Seleccione el tipo de vehículo</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label for="anio" class="form-label">Año</label>
+                            <input type="number" id="anio" name="anio" class="form-control" placeholder="Ingrese el año del vehículo" required min="2000" max="2030">
+                        </div>
+                        <div class="col-12">
+                            <label for="color" class="form-label">Color</label>
+                            <input type="text" id="color" name="color" class="form-control" placeholder="Ingrese el color del vehículo" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="propietario" class="form-label">Propietario</label>
+                            <select class="form-select" id="propietario" name="propietario" required>
+                                <option selected disabled value="">Seleccione un propietario</option>
+                                <?php
+                                $query = "SELECT id, documentacion FROM propietarios";
+                                $stmt = $db->prepare($query);
+                                $stmt->execute();
+
+                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<option value='" . $row['id'] . "'>" . $row['documentacion'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="reset" class="btn btn-danger">Reset</button>
+                            <a href="tabla_Automoviles.php" class="btn btn-secondary">Volver</a>
+                        </div>
+                    </form>
+                    <!-- Vertical Form -->
+                </div>
+            </div>
         </div>
-        <div class="col-12">
-            <label for="modelo" class="form-label">Modelo</label>
-            <select class="form-select" id="modelo" name="modelo" required>
-                <option selected disabled value="">Seleccione un modelo</option>
-            </select>
-        </div>
-        <div class="col-12">
-            <label for="tipo_vehiculo" class="form-label">Tipo de vehículo</label>
-            <select class="form-select" id="tipo_vehiculo" name="tipo_vehiculo" required>
-                <option selected disabled value="">Seleccione el tipo de vehículo</option>
-            </select>
-        </div>
-        <div class="col-12">
-            <label for="anio" class="form-label">Año</label>
-            <input type="number" id="anio" name="anio" class="form-control" placeholder="Ingrese el año del vehículo" required min="2000" max="2030">
-        </div>
-        <div class="col-12">
-            <label for="color" class="form-label">Color</label>
-            <input type="text" id="color" name="color" class="form-control" placeholder="Ingrese el color del vehículo" required>
-        </div>
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary">Guardar</button>
-            <button type="reset" class="btn btn-danger">Reset</button>
-            <a href="tabla_Automoviles.php" class="btn btn-secondary">Volver</a>
-        </div>
-    </form>
-    <!-- Vertical Form -->
-</div>
-</div>
-</div>
-</div>
+    </div>
 </div>
 
 <script>
@@ -88,7 +103,6 @@ document.getElementById('anio').addEventListener('input', function() {
         this.value = '';
     }
 });
-
 
 function fetchModelos(marcaId) {
     var xhr = new XMLHttpRequest();
@@ -136,6 +150,13 @@ function fetchTiposVehiculo(modeloId) {
     };
     xhr.send('modelo_id=' + modeloId);
 }
+
+$(document).ready(function() {
+    $('#propietario').select2({
+        placeholder: "Seleccione un propietario",
+        allowClear: true
+    });
+});
 </script>
 
 <?php include('../templates/footer.php'); ?>
