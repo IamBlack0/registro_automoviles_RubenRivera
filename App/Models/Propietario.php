@@ -21,6 +21,19 @@ class Propietario
     // Método para registrar un propietario
     public function registrar()
     {
+        // Verificar si la documentación ya existe
+        $query = "SELECT COUNT(*) as count FROM " . $this->table_name . " WHERE documentacion = :documentacion";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":documentacion", $this->documentacion);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row['count'] > 0) {
+            // La documentación ya existe, retornar false
+            return false;
+        }
+
+        // Insertar el nuevo propietario
         $query = "INSERT INTO " . $this->table_name . " 
         (nombre, apellido, telefono, documentacion, tipo_propietario) 
         VALUES (:nombre, :apellido, :telefono, :documentacion, :tipo_propietario)";
@@ -86,11 +99,16 @@ class Propietario
     // Método para eliminar un propietario
     public function eliminar($id)
     {
+        // Eliminar registros relacionados en la tabla propietario_automovil
+        $query = "DELETE FROM propietario_automovil WHERE documentacion = (SELECT documentacion FROM " . $this->table_name . " WHERE id = :id)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+
+        // Eliminar el propietario
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
         $stmt = $this->conn->prepare($query);
-
-        $this->id = htmlspecialchars(strip_tags($id));
-        $stmt->bindParam(":id", $this->id);
+        $stmt->bindParam(":id", $id);
 
         if ($stmt->execute()) {
             return true;

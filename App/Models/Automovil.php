@@ -111,10 +111,25 @@ public function registrar() {
 
 
 
- // Método para eliminar un automóvil
+
+// Método para eliminar un automóvil
 public function eliminar($id) {
+    // Obtener la placa del automóvil antes de eliminarlo
+    $query = "SELECT placa FROM " . $this->table_name . " WHERE id = :id";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(":id", $id);
+    $stmt->execute();
+    $placa = $stmt->fetchColumn();
+
+    if ($placa) {
+        // Eliminar registros relacionados en la tabla propietario_automovil
+        $query = "DELETE FROM propietario_automovil WHERE placa = :placa";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":placa", $placa);
+        $stmt->execute();
+    }
     // Query para eliminar un automóvil
-    $query = "DELETE FROM ". $this->table_name. " WHERE id = :id";
+    $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
     // Preparar la declaración
     $stmt = $this->conn->prepare($query);
 

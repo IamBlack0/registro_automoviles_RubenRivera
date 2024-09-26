@@ -1,4 +1,16 @@
-<?php include('../templates/header.php'); ?>
+<?php
+session_start(); // Iniciar la sesión
+// Verificar rutas
+$headerPath = realpath('../Views/templates/header.php');
+
+
+if (!$headerPath) {
+    die('Error: No se encontró el archivo header.php en la ruta especificada.');
+}
+
+
+include $headerPath;
+?>
 
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -8,6 +20,15 @@
                     <h2 class="mb-0">Agregar Propietario</h2>
                 </div>
                 <div class="card-body">
+                    <!-- Mostrar mensaje de error si existe -->
+                    <?php if (isset($_SESSION['mensaje'])): ?>
+                        <div class="alert alert-<?php echo $_SESSION['tipo_mensaje']; ?>" role="alert">
+                            <?php echo $_SESSION['mensaje']; ?>
+                        </div>
+                        <?php unset($_SESSION['mensaje']); ?>
+                        <?php unset($_SESSION['tipo_mensaje']); ?>
+                    <?php endif; ?>
+
                     <!-- Vertical Form -->
                     <form class="row g-3" action="procesar_registro_propietario.php" method="post">
                         <div class="col-12">
@@ -47,4 +68,14 @@
     </div>
 </div>
 
-<?php include('../templates/footer.php'); ?>
+<?php 
+
+$footerPath = realpath('../Views/templates/footer.php');
+
+if (!$headerPath) {
+    die('Error: No se encontró el archivo header.php en la ruta especificada.');
+}
+
+include $footerPath;
+
+?>

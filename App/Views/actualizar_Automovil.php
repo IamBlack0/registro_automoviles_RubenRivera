@@ -1,8 +1,25 @@
 <?php
 ob_start();  // Inicia el almacenamiento en el buffer de salida
-include '../templates/header.php';
-include '../includes/Database.php';
-include '../includes/Automovil.php';
+
+
+// Verificar rutas
+$headerPath = realpath('../Views/templates/header.php');
+$databasePath = realpath('../../Config/DataBase.php');
+$automovilPath = realpath('../Models/Automovil.php');
+
+if (!$headerPath) {
+    die('Error: No se encontró el archivo header.php en la ruta especificada.');
+}
+if (!$databasePath) {
+    die('Error: No se encontró el archivo DataBase.php en la ruta especificada.');
+}
+if (!$automovilPath) {
+    die('Error: No se encontró el archivo Automovil.php en la ruta especificada.');
+}
+
+include $headerPath;
+include $databasePath;
+include $automovilPath;
 
 $database = new Database();
 $db = $database->getConnection();
@@ -152,7 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     function fetchModelos(marcaId) {
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '../ajax/obtener_modelos.php', true);
+        xhr.open('POST', '../Controllers/obtener_modelos.php', true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.onload = function () {
             if (this.status == 200) {
@@ -172,7 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     function fetchTiposVehiculo(modeloId) {
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '../ajax/obtener_tipos_vehiculo.php', true);
+        xhr.open('POST', '../Controllers/obtener_tipos_vehiculo.php', true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.onload = function () {
             if (this.status == 200) {
@@ -205,5 +222,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <?php
 ob_end_flush();
-include '../templates/footer.php';
+$footerPath = realpath('../Views/templates/footer.php');
+
+if (!$headerPath) {
+    die('Error: No se encontró el archivo header.php en la ruta especificada.');
+}
+
+include $footerPath;
 ?>

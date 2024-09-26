@@ -1,8 +1,23 @@
 <?php
 ob_start();  // Inicia el almacenamiento en el buffer de salida
-include '../templates/header.php';
-include '../includes/Database.php';
-include '../includes/Propietario.php';
+// Verificar rutas
+$headerPath = realpath('../Views/templates/header.php');
+$databasePath = realpath('../../Config/DataBase.php');
+$propietarioPath = realpath('../Models/Propietario.php');
+
+if (!$headerPath) {
+    die('Error: No se encontró el archivo header.php en la ruta especificada.');
+}
+if (!$databasePath) {
+    die('Error: No se encontró el archivo DataBase.php en la ruta especificada.');
+}
+if (!$propietarioPath) {
+    die('Error: No se encontró el archivo Propietario.php en la ruta especificada.');
+}
+
+include $headerPath;
+include $databasePath;
+include $propietarioPath;
 
 $database = new Database();
 $db = $database->getConnection();
@@ -10,6 +25,7 @@ $db = $database->getConnection();
 $propietario = new Propietario($db);
 $stmt = $propietario->leer();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 // Consulta JOIN para obtener los datos de los propietarios y sus automóviles
 $query = "
     SELECT 
@@ -36,7 +52,7 @@ $clientes_automoviles = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <ul class="sidebar-nav" id="sidebar-nav">
 
     <li class="nav-item">
-      <a class="nav-link " href="../index.html">
+      <a class="nav-link " href="../../index.html">
         <i class="bi bi-grid"></i>
         <span>Inicio</span>
       </a>
@@ -84,11 +100,15 @@ $clientes_automoviles = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="col-lg-12">
 
         <div class="card">
+          <!-- Agregar un boton de agregar propietario -->
+
           <div class="card-body">
-            <h5 class="card-title">Clientes</h5>
+            <h5 class="card-title">Propietarios</h5>
             <div class="d-flex justify-content-end mb-3">
+              <!-- Botón de agregar propietario alineado a la derecha -->
               <a href="agregar_Propietario.php" class="btn btn-primary">Agregar Propietario</a>
             </div>
+
             <!-- Table with stripped rows -->
             <table class="table datatable">
               <thead>
@@ -96,9 +116,9 @@ $clientes_automoviles = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <th>ID</th>
                   <th>Nombre</th>
                   <th>Apellido</th>
-                  <th>Telefono</th>
-                  <th>Tipo de Propietarios</th>
+                  <th>Teléfono</th>
                   <th>Documentación</th>
+                  <th>Tipo de Propietario</th>
                   <th>Acción</th>
                 </tr>
               </thead>
@@ -109,8 +129,8 @@ $clientes_automoviles = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?php echo htmlspecialchars($row["nombre"]); ?></td>
                     <td><?php echo htmlspecialchars($row["apellido"]); ?></td>
                     <td><?php echo htmlspecialchars($row["telefono"]); ?></td>
-                    <td><?php echo htmlspecialchars($row["tipo_propietario"]); ?></td>
                     <td><?php echo htmlspecialchars($row["documentacion"]); ?></td>
+                    <td><?php echo htmlspecialchars($row["tipo_propietario"]); ?></td>
                     <td>
                       <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -120,10 +140,10 @@ $clientes_automoviles = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                           <li>
                             <a class="dropdown-item text-primary"
-                              href="editar_Propietario.php?id=<?php echo $row['id']; ?>">Modificar</a>
+                              href="actualizar_Propietario.php?id=<?php echo $row['id']; ?>">Modificar</a>
                           </li>
                           <li>
-                            <form action="eliminar_Propietario.php" method="post" class="eliminar-propietario-form"
+                            <form action="eliminar_propietario.php" method="post" class="eliminar-propietario-form"
                               data-id="<?php echo htmlspecialchars($row['id']); ?>">
                               <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']); ?>">
                               <button type="submit" class="dropdown-item text-danger">Eliminar</button>
@@ -136,6 +156,7 @@ $clientes_automoviles = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php endforeach; ?>
               </tbody>
             </table>
+
             <!-- End Table with stripped rows -->
 
           </div>
@@ -177,9 +198,47 @@ $clientes_automoviles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 </main>
 <!-- End #main -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.eliminar-propietario-form').forEach(function(form) {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (confirm('¿Estás seguro de que deseas eliminar este propietario?')) {
+                var formData = new FormData(form);
+                var id = form.getAttribute('data-id');
 
+                fetch('../Controllers/eliminar_propietario.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Eliminar la fila de la tabla
+                        var row = document.querySelector('form[data-id="' + id + '"]').closest('tr');
+                        row.remove();
+                    } else {
+                        alert('Error al eliminar el propietario.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al eliminar el propietario.');
+                });
+            }
+        });
+    });
+});
+</script>
 <!-- ======= Footer ======= -->
 <?php
 ob_end_flush();
-include '../templates/footer.php';
+
+$footerPath = realpath('../Views/templates/footer.php');
+
+if (!$footerPath) {
+    die('Error: No se encontró el archivo footer.php en la ruta especificada.');
+}
+
+include $footerPath;
 ?>

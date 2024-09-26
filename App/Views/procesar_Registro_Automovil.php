@@ -1,6 +1,18 @@
 <?php
-include '../includes/Database.php';
-include '../includes/Automovil.php';
+// Verificar rutas
+$databasePath = realpath('../../Config/DataBase.php');
+$automovilPath = realpath('../Models/Automovil.php');
+
+
+if (!$databasePath) {
+    die('Error: No se encontró el archivo DataBase.php en la ruta especificada.');
+}
+if (!$automovilPath) {
+    die('Error: No se encontró el archivo Automovil.php en la ruta especificada.');
+}
+
+include $databasePath;
+include $automovilPath;
 
 $database = new Database();
 $db = $database->getConnection();

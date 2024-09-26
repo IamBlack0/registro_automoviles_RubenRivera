@@ -1,8 +1,24 @@
 <?php
 ob_start();  // Inicia el almacenamiento en el buffer de salida
-include '../templates/header.php';
-include '../includes/Database.php';
-include '../includes/Automovil.php';
+
+// Verificar rutas
+$headerPath = realpath('../Views/templates/header.php');
+$databasePath = realpath('../../Config/DataBase.php');
+$automovilPath = realpath('../Models/Automovil.php');
+
+if (!$headerPath) {
+    die('Error: No se encontró el archivo header.php en la ruta especificada.');
+}
+if (!$databasePath) {
+    die('Error: No se encontró el archivo DataBase.php en la ruta especificada.');
+}
+if (!$automovilPath) {
+    die('Error: No se encontró el archivo Automovil.php en la ruta especificada.');
+}
+
+include $headerPath;
+include $databasePath;
+include $automovilPath;
 
 $database = new Database();
 $db = $database->getConnection();
@@ -39,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <ul class="sidebar-nav" id="sidebar-nav">
 
     <li class="nav-item">
-      <a class="nav-link " href="../index.html">
+      <a class="nav-link " href="../../index.html">
         <i class="bi bi-grid"></i>
         <span>Inicio</span>
       </a>
@@ -170,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 var formData = new FormData(form);
                 var id = form.getAttribute('data-id');
 
-                fetch('../ajax/eliminar_automovil.php', {
+                fetch('../Controllers/eliminar_automovil.php', {
                     method: 'POST',
                     body: formData
                 })
@@ -197,4 +213,4 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- ======= Footer ======= -->
 <?php
 ob_end_flush();
-include '../templates/footer.php'; ?>
+include 'templates/footer.php'; ?>

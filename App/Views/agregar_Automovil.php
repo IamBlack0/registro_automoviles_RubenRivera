@@ -1,4 +1,11 @@
-<?php include('../templates/header.php'); ?>
+<?php
+// Verificar rutas
+$headerPath = realpath('../Views/templates/header.php');
+if (!$headerPath) {
+    die('Error: No se encontró el archivo header.php en la ruta especificada.');
+}
+include $headerPath;
+?>
 
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -15,7 +22,7 @@
                             <select class="form-select" id="marca" name="marca" required>
                                 <option selected disabled value="">Seleccione una marca</option>
                                 <?php
-                                include '../includes/Database.php';
+                                include '../../Config/DataBase.php';
                                 $database = new Database();
                                 $db = $database->getConnection();
 
@@ -106,7 +113,7 @@ document.getElementById('anio').addEventListener('input', function() {
 
 function fetchModelos(marcaId) {
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '../ajax/obtener_modelos.php', true);
+    xhr.open('POST', '../Controllers/obtener_modelos.php', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         if (this.status == 200) {
@@ -133,7 +140,7 @@ document.getElementById('modelo').addEventListener('change', function() {
 
 function fetchTiposVehiculo(modeloId) {
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '../ajax/obtener_tipos_vehiculo.php', true);
+    xhr.open('POST', '../Controllers/obtener_tipos_vehiculo.php', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         if (this.status == 200) {
@@ -159,4 +166,15 @@ $(document).ready(function() {
 });
 </script>
 
-<?php include('../templates/footer.php'); ?>
+<?php 
+ob_end_flush();
+
+$footerPath = realpath('../Views/templates/footer.php');
+
+if (!$headerPath) {
+    die('Error: No se encontró el archivo header.php en la ruta especificada.');
+}
+
+include $footerPath;
+
+?>

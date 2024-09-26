@@ -1,5 +1,5 @@
 <?php
-include '../includes/Database.php';
+include '../../Config/DataBase.php';
 
 if (isset($_POST['marca_id'])) {
     $marca_id = $_POST['marca_id'];
